@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A personal programming library to save, edit, organize, review and revisit code projects.">
+<title>CodeVault — My Programming Library</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2e;--panel2:#18233b;--line:#293653;--text:#edf2ff;--muted:#9eabc5;--accent:#8b9cff;--accent2:#56d6c2;--danger:#ff7185;--shadow:0 18px 45px #0005}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#202b50 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--panel2);color:var(--text);transition:.2s}button:hover{border-color:var(--accent);transform:translateY(-1px)}button.primary{background:linear-gradient(120deg,#697cf0,#8b65d9);border:0;color:white;font-weight:650}button.subtle{background:transparent}button.danger{color:#ff9aaa;border-color:#713c4b}.wrap{max-width:1440px;margin:auto;padding:26px}
+header{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:25px}.brand{display:flex;align-items:center;gap:13px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#7e8fff,#4ed9c2);display:grid;place-items:center;color:#10172a;font-size:23px;font-weight:900}.brand h1{font-size:23px;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.header-actions{display:flex;gap:9px;flex-wrap:wrap}
+.hero{padding:25px 27px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(115deg,#182542,#151c31);box-shadow:var(--shadow);margin-bottom:22px}.hero h2{font-size:clamp(23px,4vw,34px);margin:0 0 7px;letter-spacing:-1px}.hero p{color:var(--muted);margin:0;max-width:760px}.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:19px}.stat{background:#0d1528a8;border:1px solid #33415f;border-radius:12px;padding:10px 15px;min-width:115px}.stat strong{display:block;font-size:21px}.stat span{color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:minmax(280px,370px) 1fr;gap:20px;align-items:start}.panel{background:#111a2d;border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:var(--shadow)}.panel h3{margin:0 0 14px;font-size:17px}.field{margin-bottom:13px}.field label{display:block;font-size:12px;color:#b9c5df;margin-bottom:6px;font-weight:650}.field input,.field select,.field textarea,.search{width:100%;background:#0b1325;border:1px solid #34415d;border-radius:9px;padding:10px 11px;color:var(--text);outline:none}.field input:focus,.field select:focus,.field textarea:focus,.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px #899aff20}.field textarea{min-height:85px;resize:vertical}.codearea{font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:270px!important;tab-size:4;white-space:pre}.row{display:flex;gap:9px}.row>*{flex:1;min-width:0}.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.hint{color:var(--muted);font-size:12px;margin:9px 0 0}.workspace{min-width:0}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:13px}.toolbar .search{flex:1;min-width:180px}.toolbar select{background:#0b1325;color:var(--text);border:1px solid #34415d;border-radius:9px;padding:10px}.tabs{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}.tabs button.active{background:#344071;border-color:#899aff;color:white}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:13px}.code-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px;min-width:0}.card-top{display:flex;justify-content:space-between;gap:8px;align-items:start}.card-title{font-weight:750;overflow-wrap:anywhere}.pill{font-size:11px;color:#aebaff;background:#303a68;padding:4px 8px;border-radius:20px;white-space:nowrap}.card-desc{color:var(--muted);font-size:13px;margin:8px 0;min-height:38px}.card-meta{font-size:11px;color:#8796b5}.card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.card-actions button{font-size:12px;padding:7px 9px}.empty{border:1px dashed #3b4967;border-radius:14px;padding:35px 18px;text-align:center;color:var(--muted)}.empty strong{display:block;color:var(--text);font-size:17px;margin-bottom:5px}.preview{margin-top:18px}.preview pre{overflow:auto;background:#080e1b;border:1px solid var(--line);padding:14px;border-radius:10px;max-height:360px;color:#d9e2ff;font:12px/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.preview img,.thumb{max-width:100%;max-height:220px;object-fit:contain;border-radius:10px;border:1px solid var(--line);margin:8px 7px 0 0}.version-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.version-list button{font-size:11px;padding:6px 8px}.footer{color:#8391ad;font-size:12px;text-align:center;padding:24px 0 8px}.modal-backdrop{position:fixed;inset:0;background:#030713cc;display:none;place-items:center;padding:20px;z-index:5}.modal-backdrop.show{display:grid}.modal{max-width:650px;width:100%;max-height:85vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:21px}.modal h3{margin-top:0}.modal pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#080e1b;padding:13px;border-radius:9px;max-height:45vh;overflow:auto}.notice{font-size:12px;color:#aebbd5;margin-top:8px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.wrap{padding:15px}header{align-items:flex-start;flex-direction:column}.hero{padding:20px}.codearea{min-height:230px!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="logo">&lt;/&gt;</div><div><h1>CodeVault</h1><p>Your personal programming library</p></div></div>
+  <div class="header-actions">
+    <button id="exportBtn">⬇ Export backup</button>
+    <button id="importBtn">⬆ Import backup</button>
+    <input type="file" id="importFile" accept=".json,application/json" hidden>
+  </div>
+</header>
+<section class="hero">
+  <h2>All your code. One organised space.</h2>
+  <p>Save programs from different languages, keep alternate versions, attach reference pictures, and return to old work whenever you need it.</p>
+  <div class="stats">
+    <div class="stat"><strong id="totalCount">0</strong><span>Saved programs</span></div>
+    <div class="stat"><strong id="languageCount">0</strong><span>Languages</span></div>
+    <div class="stat"><strong id="imageCount">0</strong><span>Attached pictures</span></div>
+  </div>
+</section>
+<main class="layout">
+  <aside class="panel" id="editorPanel">
+    <h3 id="formHeading">＋ Add a program</h3>
+    <form id="codeForm">
+      <input type="hidden" id="editingId">
+      <div class="field"><label for="title">Program title *</label><input id="title" required maxlength="100" placeholder="e.g. Fibonacci series"></div>
+      <div class="row">
+        <div class="field"><label for="language">Programming language *</label><select id="language" required>
+          <option value="C">C</option><option value="C++">C++</option><option value="Java">Java</option><option value="Python">Python</option><option value="JavaScript">JavaScript</option><option value="HTML/CSS">HTML / CSS</option><option value="SQL">SQL</option><option value="Other">Other</option>
+        </select></div>
+        <div class="field"><label for="category">Category</label><select id="category"><option>Practice</option><option>Assignment</option><option>Project</option><option>Notes / Example</option><option>Other</option></select></div>
+      </div>
+      <div class="field"><label for="description">Description / notes</label><textarea id="description" placeholder="What does this program do? Add input/output notes..."></textarea></div>
+      <div class="field"><label for="code">Code *</label><textarea id="code" class="codearea" required spellcheck="false" placeholder="Write or paste your code here..."></textarea></div>
+      <div class="field"><label for="pictures">Attach pictures (screenshots, flowcharts, output)</label><input id="pictures" type="file" accept="image/*" multiple><p class="hint">Pictures are saved in this browser with your program. Large images may use significant storage.</p><div id="existingPictures"></div></div>
+      <div class="form-actions"><button class="primary" type="submit" id="saveBtn">Save program</button><button type="button" id="newBtn">Clear / New</button></div>
+      <p class="hint">Editing a saved program creates an alternate version, so your earlier code is kept.</p>
+    </form>
+  </aside>
+  <section class="workspace">
+    <div class="toolbar">
+      <input class="search" id="search" placeholder="Search titles, code, notes...">
+      <select id="languageFilter"><option value="">All languages</option><option>C</option><option>C++</option><option>Java</option><option>Python</option><option>JavaScript</option><option>HTML/CSS</option><option>SQL</option><option>Other</option></select>
+      <select id="sort"><option value="updated">Recently updated</option><option value="created">Recently added</option><option value="title">Title A–Z</option></select>
+    </div>
+    <div class="tabs"><button class="active" data-view="all">All work</button><button data-view="recent">Recently reviewed</button><button data-view="favorites">★ Favorites</button></div>
+    <div id="programList" class="cards"></div>
+    <section class="panel preview" id="preview" hidden>
+      <div class="card-top"><h3 id="previewTitle">Program preview</h3><button id="closePreview" class="subtle">✕ Close</button></div>
+      <div class="card-meta" id="previewMeta"></div>
+      <p id="previewDescription"></p>
+      <pre id="previewCode"></pre>
+      <div><strong>Pictures</strong><div id="previewImages"></div></div>
+      <div><strong>Saved versions</strong><div class="version-list" id="previewVersions"></div></div>
+      <div class="form-actions"><button id="reviewBtn">✓ Mark as reviewed</button><button id="editFromPreview" class="primary">Edit current version</button></div>
+    </section>
+  </section>
+</main>
+<div class="footer">CodeVault · A static website for GitHub Pages · Your saved work stays in this browser unless you export a backup.</div>
+</div>
+<div class="modal-backdrop" id="modal"><div class="modal"><div class="card-top"><h3 id="modalTitle">Saved version</h3><button id="modalClose">✕</button></div><pre id="modalCode"></pre><button id="copyVersion">Copy code</button></div></div>
+<script>
+const STORE_KEY = "codevault_programs_v1";
+let programs = loadData(), activeView = "all", selectedId = null, modalText = "";
+let pendingImages = [];
+function loadData(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return []}}
+function persist(){try{localStorage.setItem(STORE_KEY,JSON.stringify(programs));render()}catch(e){alert("Browser storage is full. Export a backup, remove some large pictures, or use smaller images.");}}
+const $ = id => document.getElementById(id);
+const uid = () => "p_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,7);
+function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function fmt(d){return d?new Date(d).toLocaleString():"Not yet"}
+function currentVersion(p){return p.versions[p.versions.length-1]}
+function render(){
+  $("totalCount").textContent=programs.length;
+  $("languageCount").textContent=new Set(programs.map(p=>p.language)).size;
+  $("imageCount").textContent=programs.reduce((n,p)=>n+(p.images||[]).length,0);
+  let q=$("search").value.toLowerCase(), lang=$("languageFilter").value, sort=$("sort").value;
+  let list=programs.filter(p=>{
+    let v=currentVersion(p), hay=[p.title,p.language,p.category,v.code,v.description].join(" ").toLowerCase();
+    return (!q||hay.includes(q))&&(!lang||p.language===lang)&&
+      (activeView!=="favorites"||p.favorite)&&
+      (activeView!=="recent"||p.reviewedAt);
+  });
+  list.sort((a,b)=>sort==="title"?a.title.localeCompare(b.title):sort==="created"?b.created-a.created:b.updated-a.updated);
+  $("programList").innerHTML=list.length?list.map(p=>`<article class="code-card">
+    <div class="card-top"><div class="card-title">${esc(p.title)}</div><span class="pill">${esc(p.language)}</span></div>
+    <p class="card-desc">${esc(currentVersion(p).description||"No description added.")}</p>
+    <div class="card-meta">${esc(p.category)} · ${p.versions.length} version(s) · ${((p.images||[]).length)} picture(s)<br>Updated ${fmt(p.updated)}</div>
+    <div class="card-actions"><button class="primary" data-action="open" data-id="${p.id}">Review / Revisit</button><button data-action="edit" data-id="${p.id}">Edit</button><button data-action="favorite" data-id="${p.id}">${p.favorite?"★ Saved":"☆ Favorite"}</button><button data-action="download" data-id="${p.id}">Download</button><button class="danger" data-action="delete" data-id="${p.id}">Delete</button></div>
+  </article>`).join(""):`<div class="empty" style="grid-column:1/-1"><strong>${programs.length?"No matching programs":"Your library is empty"}</strong>${programs.length?"Try another search or filter.":"Add your first program using the form. Your saved code will appear here."}</div>`;
+}
+function resetForm(){ $("codeForm").reset();$("editingId").value="";$("formHeading").textContent="＋ Add a program";$("saveBtn").textContent="Save program";$("existingPictures").innerHTML="";pendingImages=[]; }
+function readFiles(files){return Promise.all([...files].map(file=>new Promise((resolve,reject)=>{if(!file.type.startsWith("image/"))return resolve(null);let r=new FileReader();r.onload=()=>resolve({name:file.name,data:r.result});r.onerror=reject;r.readAsDataURL(file)}))).then(a=>a.filter(Boolean))}
+$("pictures").addEventListener("change",async e=>{try{pendingImages=await readFiles(e.target.files);$("existingPictures").textContent=pendingImages.length?pendingImages.length+" new picture(s) ready to save":""}catch(err){alert("Could not read one of the pictures.")}});
+$("codeForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  let id=$("editingId").value, old=programs.find(p=>p.id===id), now=Date.now();
+  let version={id:uid(),code:$("code").value,description:$("description").value,created:now};
+  if(old){
+    old.versions.push(version);old.images=[...(old.images||[]),...pendingImages];old.updated=now;old.title=$("title").value.trim();old.language=$("language").value;old.category=$("category").value;
+    // Keep the complete previous version history; each save becomes a new version.
+  }else{
+    programs.push({id:uid(),title:$("title").value.trim(),language:$("language").value,category:$("category").value,created:now,updated:now,reviewedAt:null,favorite:false,images:pendingImages,versions:[version]});
+  }
+  persist();resetForm();alert(old?"New version saved. Earlier versions are still available.":"Program saved to your library.");
+});
+$("newBtn").onclick=resetForm;
+$("search").oninput=render;$("languageFilter").onchange=render;$("sort").onchange=render;
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeView=b.dataset.view;render()});
+$("programList").addEventListener("click",e=>{
+  let b=e.target.closest("button[data-action]");if(!b)return;
+  let p=programs.find(x=>x.id===b.dataset.id);if(!p)return;
+  if(b.dataset.action==="open")openPreview(p);
+  if(b.dataset.action==="edit")editProgram(p);
+  if(b.dataset.action==="favorite"){p.favorite=!p.favorite;persist()}
+  if(b.dataset.action==="download")downloadCode(p);
+  if(b.dataset.action==="delete"&&confirm("Delete this program and all its saved versions? This cannot be undone unless you have a backup.")){programs=programs.filter(x=>x.id!==p.id);if(selectedId===p.id){$("preview").hidden=true;selectedId=null}persist()}
+});
+function openPreview(p){
+ selectedId=p.id;let v=currentVersion(p);$("preview").hidden=false;$("previewTitle").textContent=p.title;$("previewMeta").textContent=p.language+" · "+p.category+" · Last updated "+fmt(p.updated);$("previewDescription").textContent=v.description||"No notes."; $("previewCode").textContent=v.code;
+ $("previewImages").innerHTML=(p.images||[]).map(im=>`<img class="preview img" src="${im.data}" alt="${esc(im.name)}" title="${esc(im.name)}">`).join("")||"<span class='card-meta'>No pictures attached.</span>";
+ $("previewVersions").innerHTML=p.versions.map((ver,i)=>`<button data-version="${i}">Version ${i+1} · ${fmt(ver.created)}</button>`).join("");
+ $("previewVersions").querySelectorAll("button").forEach(btn=>btn.onclick=()=>{let ver=p.versions[+btn.dataset.version];$("previewCode").textContent=ver.code;$("previewDescription").textContent=ver.description||"No notes.";modalText=ver.code});
+ $("preview").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function editProgram(p){
+ let v=currentVersion(p);$("editingId").value=p.id;$("title").value=p.title;$("language").value=p.language;$("category").value=p.category;$("description").value=v.description;$("code").value=v.code;
+ $("formHeading").textContent="✎ Edit: "+p.title;$("saveBtn").textContent="Save as new version";$("existingPictures").textContent=(p.images||[]).length+" picture(s) already saved; new pictures will be added.";pendingImages=[];$("editorPanel").scrollIntoView({behavior:"smooth"});
+}
+$("closePreview").onclick=()=>$("preview").hidden=true;
+$("reviewBtn").onclick=()=>{let p=programs.find(x=>x.id===selectedId);if(p){p.reviewedAt=Date.now();persist();openPreview(p);alert("Marked as reviewed.")}};
+$("editFromPreview").onclick=()=>{let p=programs.find(x=>x.id===selectedId);if(p)editProgram(p)};
+function downloadCode(p){let v=currentVersion(p),ext={C:"c","C++":"cpp",Java:"java",Python:"py",JavaScript:"js","HTML/CSS":"html",SQL:"sql",Other:"txt"}[p.language]||"txt";let blob=new Blob([v.code],{type:"text/plain"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=p.title.replace(/[^a-z0-9-_]/gi,"_")+"."+ext;a.click();URL.revokeObjectURL(url)}
+$("exportBtn").onclick=()=>{let blob=new Blob([JSON.stringify(programs,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="codevault-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(url)};
+$("importBtn").onclick=()=>$("importFile").click();
+$("importFile").onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let data=JSON.parse(await f.text());if(!Array.isArray(data)||!data.every(p=>p.id&&Array.isArray(p.versions)))throw Error("Invalid backup");if(confirm("Import "+data.length+" programs? Existing programs with the same IDs will be replaced.")){let map=new Map(programs.map(p=>[p.id,p]));data.forEach(p=>map.set(p.id,p));programs=[...map.values()];persist();alert("Backup imported.")}}catch(err){alert("Could not import this file. Please choose a CodeVault JSON backup.")}e.target.value=""};
+$("modalClose").onclick=()=>$("modal").classList.remove("show");
+$("copyVersion").onclick=async()=>{try{await navigator.clipboard.writeText(modalText);alert("Code copied.")}catch(e){alert("Clipboard access is not available in this browser.")}};
+render();
+</script>
+</body>
+</html>
